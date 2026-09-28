@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 25px;
+    }
+
+    .products,
+    .cart {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .products h2,
+    .cart h2 {
+      margin-bottom: 20px;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .product h3 {
+      margin-bottom: 8px;
+    }
+
+    .price {
+      color: #2563eb;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-btn {
+      background: #2563eb;
+      color: white;
+      width: 100%;
+    }
+
+    .add-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+      gap: 10px;
+    }
+
+    .remove-btn {
+      background: #ef4444;
+      color: white;
+      padding: 6px 9px;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .checkout {
+      background: #16a34a;
+      color: white;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .checkout:hover {
+      background: #15803d;
+    }
+
+    .empty {
+      color: #777;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 750px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>📦 Pedidos App</h1>
+    <p>Gestiona tus pedidos fácilmente</p>
+  </header>
+
+  <main class="container">
+
+    <div class="layout">
+
+      <!-- PRODUCTOS -->
+      <section class="products">
+        <h2>Productos</h2>
+
+        <div class="product-list">
+
+          <div class="product">
+            <h3>Hamburguesa Clásica</h3>
+            <p class="price">$5.990</p>
+            <button class="add-btn"
+              onclick="agregarProducto('Hamburguesa Clásica', 5990)">
+              Agregar
+            </button>
+          </div>
+
+          <div class="product">
+            <h3>Pizza Familiar</h3>
+            <p class="price">$12.990</p>
+            <button class="add-btn"
+              onclick="agregarProducto('Pizza Familiar', 12990)">
+              Agregar
+            </button>
+          </div>
+
+          <div class="product">
+            <h3>Completo Italiano</h3>
+            <p class="price">$3.990</p>
+            <button class="add-btn"
+              onclick="agregarProducto('Completo Italiano', 3990)">
+              Agregar
+            </button>
+          </div>
+
+          <div class="product">
+            <h3>Papas Fritas</h3>
+            <p class="price">$2.990</p>
+            <button class="add-btn"
+              onclick="agregarProducto('Papas Fritas', 2990)">
+              Agregar
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CARRITO -->
+      <section class="cart">
+        <h2>🛒 Mi Pedido</h2>
+
+        <div id="cartItems">
+          <p class="empty">No hay productos en el pedido.</p>
+        </div>
+
+        <div class="total">
+          <span>Total:</span>
+          <span id="total">$0</span>
+        </div>
+
+        <button class="checkout" onclick="realizarPedido()">
+          Realizar pedido
+        </button>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script>
+    let carrito = [];
+
+    function agregarProducto(nombre, precio) {
+      carrito.push({
+        nombre: nombre,
+        precio: precio
+      });
+
+      actualizarCarrito();
+    }
+
+    function eliminarProducto(index) {
+      carrito.splice(index, 1);
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const cartItems = document.getElementById("cartItems");
+      const totalElement = document.getElementById("total");
+
+      cartItems.innerHTML = "";
+
+      if (carrito.length === 0) {
+        cartItems.innerHTML =
+          '<p class="empty">No hay productos en el pedido.</p>';
+
+        totalElement.textContent = "$0";
+        return;
+      }
+
+      let total = 0;
+
+      carrito.forEach((producto, index) => {
+        total += producto.precio;
+
+        const item = document.createElement("div");
+        item.className = "cart-item";
+
+        item.innerHTML = `
+          <div>
+            <strong>${producto.nombre}</strong>
+            <br>
+            $${producto.precio.toLocaleString("es-CL")}
+          </div>
+
+          <button
+            class="remove-btn"
+            onclick="eliminarProducto(${index})">
+            ✕
+          </button>
+        `;
+
+        cartItems.appendChild(item);
+      });
+
+      totalElement.textContent =
+        "$" + total.toLocaleString("es-CL");
+    }
+
+    function realizarPedido() {
+      if (carrito.length === 0) {
+        alert("Agrega al menos un producto.");
+        return;
+      }
+
+      alert("✅ Pedido realizado correctamente.");
+
+      carrito = [];
+      actualizarCarrito();
+    }
+  </script>
+
+</body>
+</html>
