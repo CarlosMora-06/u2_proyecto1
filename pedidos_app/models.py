@@ -33,9 +33,12 @@ class Cliente(models.Model):
     email = models.EmailField(unique=True)
 
     class meta:
-        verbose_name_plural = "Nombres"
+        verbose_name_plural = "Clientes"
         ordering = ["nombre"]
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre}, {self.email}"
+
+
+
     pass
