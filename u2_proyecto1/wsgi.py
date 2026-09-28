@@ -1,5 +1,5 @@
 """
-WSGI config for u2_proyecto1 project.
+WSGI config for proyectoweb project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
