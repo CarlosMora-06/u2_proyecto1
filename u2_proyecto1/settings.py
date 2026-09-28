@@ -85,7 +85,7 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'u2_p1_db.wsgi.application'
+WSGI_APPLICATION = 'u2_proyecto1.wsgi.application'
 
 
 # -----------------------------------------------------------------------------
