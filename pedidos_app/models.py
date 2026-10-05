@@ -22,7 +22,7 @@ class Producto(models.Model):
 
     class meta:
         verbose_name_plural = "Productos"
-        ordering = ["nombre"]
+        ordering = ["Nombre"]
 
     def __str__(self):
         return f"{self.nombre}, {self.precio}"
@@ -34,7 +34,7 @@ class Cliente(models.Model):
 
     class meta:
         verbose_name_plural = "Clientes"
-        ordering = ["nombre"]
+        ordering = ["Nombre"]
 
     def __str__(self):
         return f"{self.nombre}, {self.email}"
@@ -46,11 +46,24 @@ class Pedido(models.Model):
     pagado = models.BooleanField()
 
     #1 -N: Un cliente realiza muchos pedidos
-    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE, related_name="cliente")
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Pedidos"
         ordering = ["fechar"]
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.fechar} {self.cliente}"
+
+class Item(models.Model):
+    precio_initario = models.PositiveIntegerField()
+    cantidad = models.PositiveIntegerField()
+    pedido = models.ForeignKey(Pedido,on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto,on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name_plural = "Items"
+        # ordering = [""]
+
+        def __str__(self):
+            return f"{self.precio_initario} {self.cantidad} {self.pedido} {self.producto}"
