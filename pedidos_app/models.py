@@ -41,4 +41,16 @@ class Cliente(models.Model):
 
 
 
-    pass
+class Pedido(models.Model):
+    fechar = models.DateTimeField()
+    pagado = models.BooleanField()
+
+    #1 -N: Un cliente realiza muchos pedidos
+    cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE, related_name="cliente")
+
+    class Meta:
+        verbose_name_plural = "Pedidos"
+        ordering = ["fechar"]
+
+    def __str__(self):
+        return f"{self.id}"
