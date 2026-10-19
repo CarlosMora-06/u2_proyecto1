@@ -22,7 +22,7 @@ class Producto(models.Model):
 
     class Meta:
         verbose_name_plural = "Productos"
-        ordering = ["Nombre"]
+        ordering = ["nombre"]
 
     def __str__(self):
         return f"{self.nombre}, {self.precio}"
@@ -34,7 +34,7 @@ class Cliente(models.Model):
 
     class Meta:
         verbose_name_plural = "Clientes"
-        ordering = ["Nombre"]
+        ordering = ["nombre"]
 
     def __str__(self):
         return f"{self.nombre}, {self.email}"
@@ -42,7 +42,7 @@ class Cliente(models.Model):
 
 
 class Pedido(models.Model):
-    fechar = models.DateTimeField()
+    fecha = models.DateTimeField()
     pagado = models.BooleanField()
 
     #1 -N: Un cliente realiza muchos pedidos
