@@ -4,7 +4,7 @@ from django.db import models
 class Categoria(models.Model):
     nombre = models.CharField(max_length=80,unique=True)
 
-    class meta:
+    class Meta:
         verbose_name_plural = "Categorías"
         ordering = ["nombre"]
 
@@ -20,7 +20,7 @@ class Producto(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     codigo = models.CharField(max_length=20)
 
-    class meta:
+    class Meta:
         verbose_name_plural = "Productos"
         ordering = ["Nombre"]
 
@@ -32,7 +32,7 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=120)
     email = models.EmailField(unique=True)
 
-    class meta:
+    class Meta:
         verbose_name_plural = "Clientes"
         ordering = ["Nombre"]
 
@@ -48,9 +48,9 @@ class Pedido(models.Model):
     #1 -N: Un cliente realiza muchos pedidos
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
 
-    class Meta:
+    class meta:
         verbose_name_plural = "Pedidos"
-        ordering = ["fechar"]
+        ordering = ["fecha"]
 
     def __str__(self):
         return f"{self.fechar} {self.cliente}"
@@ -61,9 +61,9 @@ class Item(models.Model):
     pedido = models.ForeignKey(Pedido,on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto,on_delete=models.PROTECT)
 
-    class Meta:
+    class meta:
         verbose_name_plural = "Items"
         # ordering = [""]
 
         def __str__(self):
-            return f"{self.precio_initario} {self.cantidad} {self.pedido} {self.producto}"
+            return f""
